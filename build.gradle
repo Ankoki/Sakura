@@ -1,0 +1,43 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
+
+group 'com.ankoki'
+version '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+            version = version
+            groupId = 'com.ankoki'
+            def releases = 'Sakura'
+            def snapshots = 'Sakura-BETA'
+            artifactId = version.endsWith('SNAPSHOT') || version.contains('BETA') ? snapshots : releases
+        }
+    }
+    repositories {
+        maven {
+            name = 'Sakura'
+            url = 'https://hat.lordoftherin.gs/releases'
+            credentials {
+                username = project.repoUser
+                password = project.repoPassword
+            }
+        }
+    }
+}
