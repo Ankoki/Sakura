@@ -2,6 +2,33 @@ package com.ankoki.sakura;
 
 public class StringUtils {
 
+	/** TODO FIX
+	 * Unescapes a string.
+	 *
+	 * @param escaped the escaped string.
+	 * @return the same string unescaped.
+	 */
+	public static String unescape(String escaped) {
+		char previous = 0;
+		StringBuilder builder = new StringBuilder();
+		for (char c : escaped.toCharArray()) {
+			if (c == '\\') {
+				previous = c;
+				continue;
+			}
+			if (previous == '\\' && c == '\"')
+				builder.append("\"");
+			else if (previous == '\\' && c == 'n')
+				builder.append("\n");
+			else if (previous == '\n')
+				builder.append("\\").append(c);
+			else
+				builder.append(c);
+			previous = c;
+		}
+		return builder.toString();
+	}
+
 	/**
 	 * Replaces the last instance of a string in a string.
 	 * @param string the string to search in.
