@@ -70,7 +70,7 @@ public class JSON extends LinkedHashMap<String, Object> implements Map<String, O
 	 */
 	private static Object parseValue(String value) throws MalformedJsonException {
 		if (value.endsWith("}")) value = StringUtils.replaceLast(value, "}", "");
-		// value = StringUtils.unescape(value);
+		value = StringUtils.unescape(value);
 		if (value.startsWith("\"")) {
 			if (!value.endsWith("\"")) throw new MalformedJsonException("Quote found with no closing quote. Malformed value: '" + value + "'");
 			value = value.replaceFirst("\"", "");
