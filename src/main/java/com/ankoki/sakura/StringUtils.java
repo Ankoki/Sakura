@@ -1,5 +1,6 @@
 package com.ankoki.sakura;
 
+
 public class StringUtils {
 
 	/** TODO FIX

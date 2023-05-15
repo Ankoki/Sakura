@@ -1,5 +1,7 @@
 package com.ankoki.sakura;
 
+import org.apache.commons.text.StringEscapeUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -70,7 +72,7 @@ public class JSON extends LinkedHashMap<String, Object> implements Map<String, O
 	 */
 	private static Object parseValue(String value) throws MalformedJsonException {
 		if (value.endsWith("}")) value = StringUtils.replaceLast(value, "}", "");
-		value = StringUtils.unescape(value);
+		value = StringEscapeUtils.unescapeJson(value);
 		if (value.startsWith("\"")) {
 			if (!value.endsWith("\"")) throw new MalformedJsonException("Quote found with no closing quote. Malformed value: '" + value + "'");
 			value = value.replaceFirst("\"", "");
@@ -406,7 +408,7 @@ public class JSON extends LinkedHashMap<String, Object> implements Map<String, O
 			else if (value instanceof Pair<?,?> pair) builder.append(this.writeJson((Map) pair.getSecond(), pretty));
 			else if (value == null) builder.append(pretty ? " null" : "null");
 			else builder.append("\"")
-						.append(StringUtils.escape(value))
+						.append(StringEscapeUtils.escapeJson((String) value))
 						.append("\"");
 			return builder.toString();
 		}
