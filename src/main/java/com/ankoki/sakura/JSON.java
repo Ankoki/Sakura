@@ -406,9 +406,10 @@ public class JSON extends LinkedHashMap<String, Object> implements Map<String, O
 			else if (value instanceof Object[] array) builder.append(this.writeJson(array, pretty));
 			else if (value instanceof Map map) builder.append(this.writeJson(map, pretty));
 			else if (value instanceof Pair<?,?> pair) builder.append(this.writeJson((Map) pair.getSecond(), pretty));
+			else if (value instanceof UUID uuid) builder.append(uuid);
 			else if (value == null) builder.append(pretty ? " null" : "null");
 			else builder.append("\"")
-						.append(StringEscapeUtils.escapeJson((String) value))
+						.append(StringEscapeUtils.escapeJson(String.valueOf(value)))
 						.append("\"");
 			return builder.toString();
 		}
